@@ -1,0 +1,407 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		086B5FFC1F98AA0D006DE42F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086B5FFB1F98AA0D006DE42F /* AppDelegate.swift */; };
+		086B5FFE1F98AA0D006DE42F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086B5FFD1F98AA0D006DE42F /* ViewController.swift */; };
+		086B60011F98AA0D006DE42F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 086B5FFF1F98AA0D006DE42F /* Main.storyboard */; };
+		086B60031F98AA0D006DE42F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 086B60021F98AA0D006DE42F /* Assets.xcassets */; };
+		086B60061F98AA0D006DE42F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 086B60041F98AA0D006DE42F /* LaunchScreen.storyboard */; };
+		086B60141F98BDD9006DE42F /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 086B60131F98BDD9006DE42F /* libmp3lame.a */; };
+		086B60181F98C1FE006DE42F /* AudioConvertTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 086B60171F98C1FE006DE42F /* AudioConvertTool.m */; };
+		086B601B1F98C932006DE42F /* BJRecordAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 086B601A1F98C932006DE42F /* BJRecordAudio.m */; };
+		086B601E1F98C93C006DE42F /* BJAudioBufferRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 086B601D1F98C93C006DE42F /* BJAudioBufferRecorder.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		086B5FF81F98AA0D006DE42F /* MLRecodeAudio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLRecodeAudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		086B5FFB1F98AA0D006DE42F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		086B5FFD1F98AA0D006DE42F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		086B60001F98AA0D006DE42F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		086B60021F98AA0D006DE42F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		086B60051F98AA0D006DE42F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		086B60071F98AA0D006DE42F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		086B60111F98BDD9006DE42F /* lame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lame.h; sourceTree = "<group>"; };
+		086B60131F98BDD9006DE42F /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmp3lame.a; sourceTree = "<group>"; };
+		086B60151F98C1FE006DE42F /* MLRecodeAudio-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MLRecodeAudio-Bridging-Header.h"; sourceTree = "<group>"; };
+		086B60161F98C1FE006DE42F /* AudioConvertTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioConvertTool.h; sourceTree = "<group>"; };
+		086B60171F98C1FE006DE42F /* AudioConvertTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioConvertTool.m; sourceTree = "<group>"; };
+		086B60191F98C932006DE42F /* BJRecordAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJRecordAudio.h; sourceTree = "<group>"; };
+		086B601A1F98C932006DE42F /* BJRecordAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BJRecordAudio.m; sourceTree = "<group>"; };
+		086B601C1F98C93C006DE42F /* BJAudioBufferRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJAudioBufferRecorder.h; sourceTree = "<group>"; };
+		086B601D1F98C93C006DE42F /* BJAudioBufferRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BJAudioBufferRecorder.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		086B5FF51F98AA0D006DE42F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				086B60141F98BDD9006DE42F /* libmp3lame.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		086B5FEF1F98AA0D006DE42F = {
+			isa = PBXGroup;
+			children = (
+				086B5FFA1F98AA0D006DE42F /* MLRecodeAudio */,
+				086B5FF91F98AA0D006DE42F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		086B5FF91F98AA0D006DE42F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				086B5FF81F98AA0D006DE42F /* MLRecodeAudio.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		086B5FFA1F98AA0D006DE42F /* MLRecodeAudio */ = {
+			isa = PBXGroup;
+			children = (
+				086B600D1F98AA6A006DE42F /* Class */,
+				086B5FFB1F98AA0D006DE42F /* AppDelegate.swift */,
+				086B5FFD1F98AA0D006DE42F /* ViewController.swift */,
+				086B5FFF1F98AA0D006DE42F /* Main.storyboard */,
+				086B60021F98AA0D006DE42F /* Assets.xcassets */,
+				086B60041F98AA0D006DE42F /* LaunchScreen.storyboard */,
+				086B60071F98AA0D006DE42F /* Info.plist */,
+			);
+			path = MLRecodeAudio;
+			sourceTree = "<group>";
+		};
+		086B600D1F98AA6A006DE42F /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				086B601C1F98C93C006DE42F /* BJAudioBufferRecorder.h */,
+				086B601D1F98C93C006DE42F /* BJAudioBufferRecorder.m */,
+				086B60191F98C932006DE42F /* BJRecordAudio.h */,
+				086B601A1F98C932006DE42F /* BJRecordAudio.m */,
+				086B600E1F98BDD9006DE42F /* fat-lame */,
+				086B60161F98C1FE006DE42F /* AudioConvertTool.h */,
+				086B60171F98C1FE006DE42F /* AudioConvertTool.m */,
+				086B60151F98C1FE006DE42F /* MLRecodeAudio-Bridging-Header.h */,
+			);
+			path = Class;
+			sourceTree = SOURCE_ROOT;
+		};
+		086B600E1F98BDD9006DE42F /* fat-lame */ = {
+			isa = PBXGroup;
+			children = (
+				086B600F1F98BDD9006DE42F /* include */,
+				086B60121F98BDD9006DE42F /* lib */,
+			);
+			path = "fat-lame";
+			sourceTree = "<group>";
+		};
+		086B600F1F98BDD9006DE42F /* include */ = {
+			isa = PBXGroup;
+			children = (
+				086B60101F98BDD9006DE42F /* lame */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		086B60101F98BDD9006DE42F /* lame */ = {
+			isa = PBXGroup;
+			children = (
+				086B60111F98BDD9006DE42F /* lame.h */,
+			);
+			path = lame;
+			sourceTree = "<group>";
+		};
+		086B60121F98BDD9006DE42F /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				086B60131F98BDD9006DE42F /* libmp3lame.a */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		086B5FF71F98AA0D006DE42F /* MLRecodeAudio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 086B600A1F98AA0D006DE42F /* Build configuration list for PBXNativeTarget "MLRecodeAudio" */;
+			buildPhases = (
+				086B5FF41F98AA0D006DE42F /* Sources */,
+				086B5FF51F98AA0D006DE42F /* Frameworks */,
+				086B5FF61F98AA0D006DE42F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MLRecodeAudio;
+			productName = MLRecodeAudio;
+			productReference = 086B5FF81F98AA0D006DE42F /* MLRecodeAudio.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		086B5FF01F98AA0D006DE42F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0900;
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = Mrlu;
+				TargetAttributes = {
+					086B5FF71F98AA0D006DE42F = {
+						CreatedOnToolsVersion = 9.0.1;
+						LastSwiftMigration = 0900;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 086B5FF31F98AA0D006DE42F /* Build configuration list for PBXProject "MLRecodeAudio" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 086B5FEF1F98AA0D006DE42F;
+			productRefGroup = 086B5FF91F98AA0D006DE42F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				086B5FF71F98AA0D006DE42F /* MLRecodeAudio */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		086B5FF61F98AA0D006DE42F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				086B60061F98AA0D006DE42F /* LaunchScreen.storyboard in Resources */,
+				086B60031F98AA0D006DE42F /* Assets.xcassets in Resources */,
+				086B60011F98AA0D006DE42F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		086B5FF41F98AA0D006DE42F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				086B60181F98C1FE006DE42F /* AudioConvertTool.m in Sources */,
+				086B5FFE1F98AA0D006DE42F /* ViewController.swift in Sources */,
+				086B601E1F98C93C006DE42F /* BJAudioBufferRecorder.m in Sources */,
+				086B5FFC1F98AA0D006DE42F /* AppDelegate.swift in Sources */,
+				086B601B1F98C932006DE42F /* BJRecordAudio.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		086B5FFF1F98AA0D006DE42F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				086B60001F98AA0D006DE42F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		086B60041F98AA0D006DE42F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				086B60051F98AA0D006DE42F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		086B60081F98AA0D006DE42F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		086B60091F98AA0D006DE42F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		086B600B1F98AA0D006DE42F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8WKEQ2UHVJ;
+				INFOPLIST_FILE = MLRecodeAudio/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Class/fat-lame/lib",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mrlu.MLRecodeAudio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Class/MLRecodeAudio-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		086B600C1F98AA0D006DE42F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8WKEQ2UHVJ;
+				INFOPLIST_FILE = MLRecodeAudio/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Class/fat-lame/lib",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mrlu.MLRecodeAudio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Class/MLRecodeAudio-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		086B5FF31F98AA0D006DE42F /* Build configuration list for PBXProject "MLRecodeAudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				086B60081F98AA0D006DE42F /* Debug */,
+				086B60091F98AA0D006DE42F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		086B600A1F98AA0D006DE42F /* Build configuration list for PBXNativeTarget "MLRecodeAudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				086B600B1F98AA0D006DE42F /* Debug */,
+				086B600C1F98AA0D006DE42F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 086B5FF01F98AA0D006DE42F /* Project object */;
+}
