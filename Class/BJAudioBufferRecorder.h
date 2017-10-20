@@ -37,8 +37,7 @@ typedef struct AQCallbackStruct
     int                         run;
 } AQCallbackStruct;
 
-@interface BJAudioBufferRecorder : BJRecordAudio
-{
+@interface BJAudioBufferRecorder : BJRecordAudio {
     AQCallbackStruct _aqc;
 }
 

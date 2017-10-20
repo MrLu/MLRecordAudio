@@ -46,9 +46,7 @@
     NSLog(@"convert begin!!");
     __weak typeof(self) weakself = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
         weakself.stopRecord = NO;
-        
         @try {
             
             int read, write;
@@ -68,7 +66,6 @@
             
             long curpos;
             BOOL isSkipPCMHeader = NO;
-            
             do {
                 curpos = ftell(pcm);
                 long startPos = ftell(pcm);
@@ -163,13 +160,10 @@
             lame_set_in_samplerate(lame, sampleRate);
             lame_set_VBR(lame, vbr_default);
             lame_init_params(lame);
-            
             do {
-                
                 read = (int)fread(pcm_buffer, 2*sizeof(short int), PCM_SIZE, pcm);
                 if (read == 0) {
                     write = lame_encode_flush(lame, mp3_buffer, MP3_SIZE);
-                    
                 } else {
                     write = lame_encode_buffer_interleaved(lame, pcm_buffer, read, mp3_buffer, MP3_SIZE);
                 }

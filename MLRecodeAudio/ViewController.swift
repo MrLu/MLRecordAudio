@@ -9,7 +9,16 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var startBtn: UIButton!
+    @IBOutlet weak var stopBtn: UIButton!
+    
+    lazy var recorder:BJRecordAudio = {
+        let recorder:BJRecordAudio = BJRecordAudio()
+        
+        return recorder
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -20,6 +29,12 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBAction func startAction(_ sender: Any) {
+        recorder.startRecord()
+    }
+    
+    @IBAction func stopAction(_ sender: Any) {
+        recorder.stopRecord()
+    }
 }
 

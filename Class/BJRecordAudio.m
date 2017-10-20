@@ -18,35 +18,32 @@
 @property (nonatomic,strong)NSTimer* timer;
 + (BJCFTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector forMode:(NSString *)mode;
 - (void)invalidate;
+
 @end
 
 @implementation BJCFTimer
 
--(void)time
-{
+-(void)time {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     if ([target respondsToSelector:selector]) {
         [target performSelector:selector];
     }
 #pragma clang diagnostic pop
-    
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self invalidate];
 }
 
-- (void)invalidate
-{
+- (void)invalidate {
     [self.timer invalidate];
     _timer = nil;
     target = nil;
     selector = nil;
 }
-+ (BJCFTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector forMode:(NSString *)mode
-{
+
++ (BJCFTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector forMode:(NSString *)mode {
     BJCFTimer* timer = [[BJCFTimer alloc] init];
     if (timer)
     {
@@ -61,34 +58,31 @@
 @end
 
 @interface BJRecordAudio ()<AVAudioRecorderDelegate>
-@property (strong, nonatomic)AVAudioRecorder *recorder;
-@property (strong, nonatomic)NSString *recordedTmpFile;
-@property (assign, nonatomic)BOOL isCancel;
-@property (strong, nonatomic)BJCFTimer *timer;
+
+@property (strong, nonatomic) AVAudioRecorder *recorder;
+@property (strong, nonatomic) NSString *recordedTmpFile;
+@property (assign, nonatomic) BOOL isCancel;
+@property (strong, nonatomic) BJCFTimer *timer;
+
 @end
 
 @implementation BJRecordAudio
 
-- (void)dealloc
-{
-
+- (void)dealloc {
     [self cancelRecord];
     [self.recorder deleteRecording];
     [self.recorder setDelegate:nil];
 }
 
--(id)init
-{
+-(id)init {
     self = [super init];
     if (self) {
-
         self.duration = 180;
     }
     return self;
 }
 
-- (BOOL)isRecording
-{
+- (BOOL)isRecording {
     if (self.recorder){
         return self.recorder.isRecording;
     }
@@ -97,7 +91,6 @@
 
 
 - (void) stopRecord {
-
     if (self.recorder.isRecording) {
         [self.recorder stop];
     }
@@ -110,7 +103,6 @@
 }
 
 -(void) startRecord {
-
     self.isCancel = NO;
     NSDictionary *recordSetting = [NSDictionary dictionaryWithObjectsAndKeys:
                                        [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,
@@ -129,7 +121,6 @@
     [audioSession setActive:YES error: nil];
     self.recorder = [[ AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath:self.recordedTmpFile] settings:recordSetting error:&error];
     if (!error) {
-
         [self.recorder setDelegate:self];
         self.recorder.meteringEnabled=YES;
         [self.recorder recordForDuration:self.duration];
@@ -137,38 +128,29 @@
         if (self.remainingCallback) {
             self.timer = [BJCFTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(remainingTimerAction) forMode:NSRunLoopCommonModes];
         }
-    }
-    else
-    {
+    } else {
         self.finishCallback(error.localizedFailureReason, 0, NO, NO);
     }
 }
 
--(void)cancelRecord
-{
+-(void)cancelRecord {
     self.isCancel = YES;
     [self stopRecord];
 }
 
-- (void)remainingTimerAction
-{
+- (void)remainingTimerAction {
     if (self.remainingCallback) {
-        CGFloat time = self.recorder.currentTime;
+        NSTimeInterval time = self.recorder.currentTime;
         self.remainingCallback(time);
     }
 }
 
-
-- (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag
-{
+- (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
     if (!self.isCancel) {
         NSString *messageStr = nil;
-        if (flag)
-        {
+        if (flag) {
             messageStr = self.recordedTmpFile;
-        }
-        else
-        {
+        } else {
             messageStr = @"录制音频失败";
         }
         if (self.finishCallback) {
@@ -180,8 +162,7 @@
 }
 
 /* if an error occurs while encoding it will be reported to the delegate. */
-- (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError *)error
-{
+- (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError *)error {
     [self.timer invalidate];
     self.timer = nil;
     if (!self.isCancel && self.finishCallback)

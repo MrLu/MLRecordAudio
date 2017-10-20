@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
-
 @interface AudioConvertTool : NSObject
 
 /**
@@ -34,7 +32,6 @@
  send end record signal
  */
 - (void)sendEndRecord;
-
 
 
 // Use this FUNC convent to mp3 after record

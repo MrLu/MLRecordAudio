@@ -94,17 +94,13 @@ static void AQInputCallback (void                   * inUserData,
     }
 }
 
-- (id)init
-{
+- (id)init {
     return [self initWithSampleRate:kSamplingRate];
 }
 
-- (id) initWithSampleRate:(float)sr
-{
+- (id) initWithSampleRate:(float)sr {
     self = [super init];
-    
-    if (self)
-    {
+    if (self) {
         _aqc.mDataFormat.mSampleRate = sr;
         _aqc.mDataFormat.mFormatID = kAudioFormatLinearPCM;
         _aqc.mDataFormat.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked;
@@ -136,8 +132,7 @@ static void AQInputCallback (void                   * inUserData,
     return self;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
     [self cancelRecord];
     lame_t lameTmp = lame;
     dispatch_async(self.lameQueue, ^{
@@ -147,23 +142,19 @@ static void AQInputCallback (void                   * inUserData,
     });
 }
 
-- (Float64)sampleRate
-{
+- (Float64)sampleRate {
     return _aqc.mDataFormat.mSampleRate;
 }
 
-- (void)openMp3File
-{
+- (void)openMp3File {
     mp3File = fopen([self.recordedTmpFile cStringUsingEncoding:1], "wb");
 }
 
-- (BOOL)isRecording
-{
+- (BOOL)isRecording {
     return self.isActive;
 }
 
-- (void)_startRecord:(AudioBufferRecoderCallback)callback
-{
+- (void)_startRecord:(AudioBufferRecoderCallback)callback {
     _aqc.run = 1;
     AVAudioSession * audioSession = [AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error: nil];
@@ -179,9 +170,10 @@ static void AQInputCallback (void                   * inUserData,
     });
     OSStatus status = AudioQueueNewInput(&_aqc.mDataFormat, AQInputCallback, (__bridge void *)(weakSelf), NULL, kCFRunLoopCommonModes, 0, &_aqc.queue);
     if (status != errSecSuccess) {
+        callback(NO);
+        return;
     }
-    for (int i=0;i<kNumberBuffers;i++)
-    {
+    for (int i=0;i<kNumberBuffers;i++) {
         status = AudioQueueAllocateBuffer(_aqc.queue, (UInt32)_aqc.frameSize, &_aqc.mBuffers[i]);
         status = AudioQueueEnqueueBuffer(_aqc.queue, _aqc.mBuffers[i], 0, NULL);
     }
@@ -189,28 +181,38 @@ static void AQInputCallback (void                   * inUserData,
     if (status != errSecSuccess) {
         self.finishCallback([NSString stringWithFormat:@"录音失败 错误code：%d",(int)status],0,NO,NO);
         callback(NO);
-    }
-    else
-    {
+    } else {
         self.recordTime = 0;
         callback(true);
     }
 }
 
-- (void)startRecord:(AudioBufferRecoderCallback)callback
-{
-    [self authorizePermission:^(bool granted, AVAudioSessionRecordPermission permission)
-    {
-        if (!granted)
-        {
+- (void)startRecord:(AudioBufferRecoderCallback)callback {
+    [self authorizePermission:^(bool granted, AVAudioSessionRecordPermission permission) {
+        if (!granted) {
             if (permission == AVAudioSessionRecordPermissionUndetermined) {
+                AVAudioSession *session = [AVAudioSession sharedInstance];
+                NSError *error;
+                [session setCategory:@"AVAudioSessionCategoryPlayAndRecord" error:&error];
+                [session requestRecordPermission:^(BOOL granted) {
+                    if (callback) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (granted) {
+                                callback(true);
+                            } else {
+                                callback(false);
+                            }
+                        });
+                    }
+                }];
+            } else {
                 NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
                 NSString *message = [NSString stringWithFormat:@"请到 设置 -> 隐私 -> %@ 重新启用 %@ 访问.",@"麦克风", appName];
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                     
                 }];
-                UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"跳转" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"跳转" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     NSURL *appSettings = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
                     
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
@@ -234,18 +236,15 @@ static void AQInputCallback (void                   * inUserData,
     }];
 }
 
-- (void)timerAction
-{
+- (void)timerAction {
     if (self.recordTime >= self.duration && self.duration>0) {
         [self stopRecord];
-    }
-    else if(self.remainingCallback){
+    } else if(self.remainingCallback) {
         self.remainingCallback(self.recordTime);
     }
 }
 
-- (void)stopRecord
-{
+- (void)stopRecord {
     [self _stopRecord];
     if (self.finishCallback) {
         self.finishCallback(self.recordedTmpFile,self.recordTime,YES,NO);
@@ -253,13 +252,11 @@ static void AQInputCallback (void                   * inUserData,
     [self _stopLame];
 }
 
-- (void)cancelRecord
-{
+- (void)cancelRecord {
     [self _stopRecord];
 }
 
-- (void)_stopLame
-{
+- (void)_stopLame {
     __weak BJAudioBufferRecorder *weakSelf = self;
     FILE *mp3FileTmp = mp3File;
     dispatch_async(weakSelf.lameQueue, ^{
@@ -276,8 +273,7 @@ static void AQInputCallback (void                   * inUserData,
     mp3File = NULL;
 }
 
-- (void)_stopRecord
-{
+- (void)_stopRecord {
     _aqc.run = 0;
     
     AudioQueueStop(_aqc.queue, true);
@@ -289,15 +285,13 @@ static void AQInputCallback (void                   * inUserData,
     }
 }
 
-- (void)enableLevelMetering:(BOOL)enable
-{
+- (void)enableLevelMetering:(BOOL)enable {
     int32_t on = enable;
     OSStatus rc = AudioQueueSetProperty(_aqc.queue, kAudioQueueProperty_EnableLevelMetering, &on, sizeof(on));
     NSLog(@"kAudioQueueProperty_EnableLevelMetering ret:%d", (int)rc);
 }
 
-- (double)audioMeter
-{
+- (double)audioMeter {
     UInt32 dataSize = sizeof(AudioQueueLevelMeterState) * _aqc.mDataFormat.mChannelsPerFrame;
     AudioQueueLevelMeterState *levels = (AudioQueueLevelMeterState*)malloc(dataSize);
     
@@ -317,13 +311,12 @@ static void AQInputCallback (void                   * inUserData,
     return channelAvg / _aqc.mDataFormat.mChannelsPerFrame;
 }
 
-- (void) processAudioBuffer:(AudioQueueBufferRef) buffer withQueue:(AudioQueueRef) queue
-{
+- (void) processAudioBuffer:(AudioQueueBufferRef) buffer withQueue:(AudioQueueRef) queue {
     __weak BJAudioBufferRecorder *theModel = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [theModel timerAction];
     });
-    long dataSize = buffer->mAudioDataByteSize;
+    UInt32 dataSize = buffer->mAudioDataByteSize;
     long size = buffer->mAudioDataByteSize / _aqc.mDataFormat.mBytesPerFrame;
     t_sample * data = (t_sample *) buffer->mAudioData;
     t_sample * copyData = (t_sample *)malloc(dataSize);
@@ -341,8 +334,6 @@ static void AQInputCallback (void                   * inUserData,
         }
         @catch (NSException *exception) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                //                DDLogError(@"%@",[exception description]);
-                
                 [theModel _stopRecord];
                 [theModel _stopLame];
                 theModel.finishCallback([NSString stringWithFormat:@"转码失败 原因：%@",[exception description]],0,NO,NO);
@@ -353,11 +344,6 @@ static void AQInputCallback (void                   * inUserData,
         }
         free(copyData);
     });
-    
-    
-    //NSLog(@"processAudioData :%ld", buffer->mAudioDataByteSize);
-    
-    //处理data
 }
 
 - (void)authorizePermission:(void(^)(bool granted, AVAudioSessionRecordPermission permission)) authorizationHandler {
