@@ -1,5 +1,5 @@
 //
-//  BJAudioBufferRecorder.m
+//  MLAudioBufferRecorder.m
 //  BJEducation
 //
 //  Created by Randy on 14/12/2.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "BJAudioBufferRecorder.h"
-#import "BJRecordAudio.h"
+#import "MLAudioBufferRecorder.h"
+#import "MLRecordAudio.h"
 #import "lame.h"
 #include <sys/sysctl.h>
 
@@ -59,21 +59,20 @@
 
 @end
 
-@interface BJAudioBufferRecorder ()
-{
+@interface MLAudioBufferRecorder () {
     FILE *mp3File;
     lame_t lame;
 }
 
-@property (strong, nonatomic)NSString *recordedTmpFile;
+@property (strong, nonatomic) NSString *recordedTmpFile;
 @property (assign, nonatomic)BOOL isCancel;
-@property (assign, atomic)NSInteger recordTime;
+@property (assign, atomic) NSInteger recordTime;
 @property (assign, atomic)BOOL isActive;
-@property (strong, nonatomic)dispatch_queue_t lameQueue;
+@property (strong, nonatomic) dispatch_queue_t lameQueue;
 
 @end
 
-@implementation BJAudioBufferRecorder
+@implementation MLAudioBufferRecorder
 
 static void AQInputCallback (void                   * inUserData,
                              AudioQueueRef          inAudioQueue,
@@ -82,7 +81,7 @@ static void AQInputCallback (void                   * inUserData,
                              UInt32          inNumPackets,
                              const AudioStreamPacketDescription * inPacketDesc)
 {
-    __weak BJAudioBufferRecorder * engine = (__bridge BJAudioBufferRecorder *) inUserData;
+    __weak MLAudioBufferRecorder * engine = (__bridge MLAudioBufferRecorder *) inUserData;
     if (engine.aqc.run)
     {
         engine.recordTime = inStartTime->mSampleTime / engine.sampleRate;
@@ -135,8 +134,10 @@ static void AQInputCallback (void                   * inUserData,
 - (void) dealloc {
     [self cancelRecord];
     lame_t lameTmp = lame;
+    FILE *mp3FileTmp = mp3File;
     dispatch_async(self.lameQueue, ^{
         if (lameTmp) {
+            lame_mp3_tags_fid(lameTmp, mp3FileTmp);
             lame_close(lameTmp);
         }
     });
@@ -162,7 +163,7 @@ static void AQInputCallback (void                   * inUserData,
     [audioSession setActive:YES error: nil];
     self.isActive = YES;
     self.recordedTmpFile = [NSTemporaryDirectory() stringByAppendingPathComponent: [NSString stringWithFormat: @"%.0f.%@", [NSDate timeIntervalSinceReferenceDate] * 1000.0, @"mp3"]];
-    __weak BJAudioBufferRecorder *weakSelf = self;
+    __weak MLAudioBufferRecorder *weakSelf = self;
     
     dispatch_async(weakSelf.lameQueue, ^{
         weakSelf.isLameFinish = NO;
@@ -179,7 +180,7 @@ static void AQInputCallback (void                   * inUserData,
     }
     status = AudioQueueStart(_aqc.queue, NULL);
     if (status != errSecSuccess) {
-        self.finishCallback([NSString stringWithFormat:@"录音失败 错误code：%d",(int)status],0,NO,NO);
+        self.finishCallback(self.recordedTmpFile, [NSString stringWithFormat:@"录音失败 错误code：%d",(int)status],0,NO,NO);
         callback(NO);
     } else {
         self.recordTime = 0;
@@ -246,10 +247,10 @@ static void AQInputCallback (void                   * inUserData,
 
 - (void)stopRecord {
     [self _stopRecord];
-    if (self.finishCallback) {
-        self.finishCallback(self.recordedTmpFile,self.recordTime,YES,NO);
-    }
     [self _stopLame];
+    if (self.finishCallback) {
+        self.finishCallback(self.recordedTmpFile, self.recordedTmpFile,self.recordTime,YES,NO);
+    }
 }
 
 - (void)cancelRecord {
@@ -257,16 +258,19 @@ static void AQInputCallback (void                   * inUserData,
 }
 
 - (void)_stopLame {
-    __weak BJAudioBufferRecorder *weakSelf = self;
+    __weak MLAudioBufferRecorder *weakSelf = self;
     FILE *mp3FileTmp = mp3File;
+    lame_t lameTmp = lame;
     dispatch_async(weakSelf.lameQueue, ^{
         if (weakSelf && mp3FileTmp) {
+            lame_mp3_tags_fid(lameTmp, mp3FileTmp);
+//            lame_close(lameTmp);
             fclose(mp3FileTmp);
         }
         weakSelf.isLameFinish = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             if (weakSelf.finishCallback) {
-                weakSelf.finishCallback(weakSelf.recordedTmpFile,self.recordTime,YES,YES);
+                weakSelf.finishCallback(self.recordedTmpFile, weakSelf.recordedTmpFile,self.recordTime,YES,YES);
             }
         });
     });
@@ -312,7 +316,7 @@ static void AQInputCallback (void                   * inUserData,
 }
 
 - (void) processAudioBuffer:(AudioQueueBufferRef) buffer withQueue:(AudioQueueRef) queue {
-    __weak BJAudioBufferRecorder *theModel = self;
+    __weak MLAudioBufferRecorder *theModel = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [theModel timerAction];
     });
@@ -336,7 +340,7 @@ static void AQInputCallback (void                   * inUserData,
             dispatch_async(dispatch_get_main_queue(), ^{
                 [theModel _stopRecord];
                 [theModel _stopLame];
-                theModel.finishCallback([NSString stringWithFormat:@"转码失败 原因：%@",[exception description]],0,NO,NO);
+                theModel.finishCallback(self.recordedTmpFile, [NSString stringWithFormat:@"转码失败 原因：%@",[exception description]],0,NO,NO);
             });
         }
         @finally {

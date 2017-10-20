@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var startBtn: UIButton!
     @IBOutlet weak var stopBtn: UIButton!
     
-    lazy var recorder:BJRecordAudio = {
-        let recorder:BJRecordAudio = BJRecordAudio()
-        
+    lazy var recorder:MLAudioBufferRecorder = {
+//        let recorder:MLRecordAudio = MLRecordAudio()
+        let recorder:MLAudioBufferRecorder = MLAudioBufferRecorder()
         return recorder
     }()
     
@@ -30,7 +30,13 @@ class ViewController: UIViewController {
     }
 
     @IBAction func startAction(_ sender: Any) {
-        recorder.startRecord()
+        if recorder.isKind(of: MLAudioBufferRecorder.self) {
+            recorder.startRecord({ (start) in
+                
+            })
+        } else {
+            recorder.startRecord()
+        }
     }
     
     @IBAction func stopAction(_ sender: Any) {

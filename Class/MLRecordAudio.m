@@ -5,9 +5,10 @@
 //  Copyright (c) 2014年 com.bjhl. All rights reserved.
 //
 
-#import "BJRecordAudio.h"
+#import "MLRecordAudio.h"
 #import <AVFoundation/AVFoundation.h>
 #import "lame.h"
+#import "AudioConvertTool.h"
 
 @interface BJCFTimer : NSObject
 {
@@ -57,16 +58,17 @@
 }
 @end
 
-@interface BJRecordAudio ()<AVAudioRecorderDelegate>
+@interface MLRecordAudio ()<AVAudioRecorderDelegate>
 
 @property (strong, nonatomic) AVAudioRecorder *recorder;
 @property (strong, nonatomic) NSString *recordedTmpFile;
+@property (strong, nonatomic) NSString *recordedCafTmpFile;
 @property (assign, nonatomic) BOOL isCancel;
 @property (strong, nonatomic) BJCFTimer *timer;
 
 @end
 
-@implementation BJRecordAudio
+@implementation MLRecordAudio
 
 - (void)dealloc {
     [self cancelRecord];
@@ -113,13 +115,14 @@
                                    AVEncoderAudioQualityKey,
                                        nil];
     
-    self.recordedTmpFile = [NSTemporaryDirectory() stringByAppendingPathComponent: [NSString stringWithFormat: @"%.0f.%@", [NSDate timeIntervalSinceReferenceDate] * 1000.0, @"caf"]];
-    NSLog(@"Using File called: %@",self.recordedTmpFile);
+    self.recordedCafTmpFile = [NSTemporaryDirectory() stringByAppendingPathComponent: [NSString stringWithFormat: @"%.0f.%@", [NSDate timeIntervalSinceReferenceDate] * 1000.0, @"caf"]];
+    self.recordedTmpFile = [NSTemporaryDirectory() stringByAppendingPathComponent: [NSString stringWithFormat: @"%.0f.%@", [NSDate timeIntervalSinceReferenceDate] * 1000.0, @"mp3"]];
+    NSLog(@"Using File called: %@",self.recordedCafTmpFile);
     NSError *error;
     AVAudioSession * audioSession = [AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error: nil];
     [audioSession setActive:YES error: nil];
-    self.recorder = [[ AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath:self.recordedTmpFile] settings:recordSetting error:&error];
+    self.recorder = [[ AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath:self.recordedCafTmpFile] settings:recordSetting error:&error];
     if (!error) {
         [self.recorder setDelegate:self];
         self.recorder.meteringEnabled=YES;
@@ -129,7 +132,7 @@
             self.timer = [BJCFTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(remainingTimerAction) forMode:NSRunLoopCommonModes];
         }
     } else {
-        self.finishCallback(error.localizedFailureReason, 0, NO, NO);
+        self.finishCallback(self.recordedCafTmpFile, error.localizedFailureReason, 0, NO, NO);
     }
 }
 
@@ -150,11 +153,17 @@
         NSString *messageStr = nil;
         if (flag) {
             messageStr = self.recordedTmpFile;
+            int sampleRate = [[self.recorder.settings objectForKey:AVSampleRateKey] intValue];
+            [AudioConvertTool conventToMp3WithCafFilePath:self.recordedCafTmpFile mp3FilePath:self.recordedTmpFile sampleRate:sampleRate callback:^(BOOL result) {
+                if (self.finishCallback) {
+                    self.finishCallback(self.recordedTmpFile, messageStr, self.recorder.currentTime, flag, result);
+                }
+            }];
         } else {
             messageStr = @"录制音频失败";
-        }
-        if (self.finishCallback) {
-            self.finishCallback(messageStr, self.recorder.currentTime, flag,YES);
+            if (self.finishCallback) {
+                self.finishCallback(self.recordedCafTmpFile, messageStr, self.recorder.currentTime, flag, NO);
+            }
         }
     }
     [self.timer invalidate];
@@ -166,7 +175,7 @@
     [self.timer invalidate];
     self.timer = nil;
     if (!self.isCancel && self.finishCallback)
-        self.finishCallback(error.localizedFailureReason, 0, NO,NO);
+        self.finishCallback(self.recordedCafTmpFile, error.localizedFailureReason, 0, NO, NO);
 }
 
 @end

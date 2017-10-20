@@ -1,5 +1,5 @@
 //
-//  BJAudioBufferRecorder.h
+//  MLAudioBufferRecorder.h
 //  BJEducation
 //
 //  Created by Randy on 14/12/2.
@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <CoreAudio/CoreAudioTypes.h>
-#import "BJRecordAudio.h"
-// use Audio Queue
+#import "MLRecordAudio.h"
 
 // Audio Settings
 #define kNumberBuffers      3
@@ -37,7 +36,11 @@ typedef struct AQCallbackStruct
     int                         run;
 } AQCallbackStruct;
 
-@interface BJAudioBufferRecorder : BJRecordAudio {
+
+/**
+  MLAudioBufferRecorder use Audio Queue, realtime convert to mp3
+ */
+@interface MLAudioBufferRecorder : MLRecordAudio {
     AQCallbackStruct _aqc;
 }
 

@@ -14,8 +14,8 @@
 		086B60061F98AA0D006DE42F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 086B60041F98AA0D006DE42F /* LaunchScreen.storyboard */; };
 		086B60141F98BDD9006DE42F /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 086B60131F98BDD9006DE42F /* libmp3lame.a */; };
 		086B60181F98C1FE006DE42F /* AudioConvertTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 086B60171F98C1FE006DE42F /* AudioConvertTool.m */; };
-		086B601B1F98C932006DE42F /* BJRecordAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 086B601A1F98C932006DE42F /* BJRecordAudio.m */; };
-		086B601E1F98C93C006DE42F /* BJAudioBufferRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 086B601D1F98C93C006DE42F /* BJAudioBufferRecorder.m */; };
+		086B601B1F98C932006DE42F /* MLRecordAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 086B601A1F98C932006DE42F /* MLRecordAudio.m */; };
+		086B601E1F98C93C006DE42F /* MLAudioBufferRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 086B601D1F98C93C006DE42F /* MLAudioBufferRecorder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,10 +31,10 @@
 		086B60151F98C1FE006DE42F /* MLRecodeAudio-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MLRecodeAudio-Bridging-Header.h"; sourceTree = "<group>"; };
 		086B60161F98C1FE006DE42F /* AudioConvertTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioConvertTool.h; sourceTree = "<group>"; };
 		086B60171F98C1FE006DE42F /* AudioConvertTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioConvertTool.m; sourceTree = "<group>"; };
-		086B60191F98C932006DE42F /* BJRecordAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJRecordAudio.h; sourceTree = "<group>"; };
-		086B601A1F98C932006DE42F /* BJRecordAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BJRecordAudio.m; sourceTree = "<group>"; };
-		086B601C1F98C93C006DE42F /* BJAudioBufferRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJAudioBufferRecorder.h; sourceTree = "<group>"; };
-		086B601D1F98C93C006DE42F /* BJAudioBufferRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BJAudioBufferRecorder.m; sourceTree = "<group>"; };
+		086B60191F98C932006DE42F /* MLRecordAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLRecordAudio.h; sourceTree = "<group>"; };
+		086B601A1F98C932006DE42F /* MLRecordAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLRecordAudio.m; sourceTree = "<group>"; };
+		086B601C1F98C93C006DE42F /* MLAudioBufferRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLAudioBufferRecorder.h; sourceTree = "<group>"; };
+		086B601D1F98C93C006DE42F /* MLAudioBufferRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLAudioBufferRecorder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,11 +82,11 @@
 		086B600D1F98AA6A006DE42F /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				086B601C1F98C93C006DE42F /* BJAudioBufferRecorder.h */,
-				086B601D1F98C93C006DE42F /* BJAudioBufferRecorder.m */,
-				086B60191F98C932006DE42F /* BJRecordAudio.h */,
-				086B601A1F98C932006DE42F /* BJRecordAudio.m */,
 				086B600E1F98BDD9006DE42F /* fat-lame */,
+				086B601C1F98C93C006DE42F /* MLAudioBufferRecorder.h */,
+				086B601D1F98C93C006DE42F /* MLAudioBufferRecorder.m */,
+				086B60191F98C932006DE42F /* MLRecordAudio.h */,
+				086B601A1F98C932006DE42F /* MLRecordAudio.m */,
 				086B60161F98C1FE006DE42F /* AudioConvertTool.h */,
 				086B60171F98C1FE006DE42F /* AudioConvertTool.m */,
 				086B60151F98C1FE006DE42F /* MLRecodeAudio-Bridging-Header.h */,
@@ -202,9 +202,9 @@
 			files = (
 				086B60181F98C1FE006DE42F /* AudioConvertTool.m in Sources */,
 				086B5FFE1F98AA0D006DE42F /* ViewController.swift in Sources */,
-				086B601E1F98C93C006DE42F /* BJAudioBufferRecorder.m in Sources */,
+				086B601E1F98C93C006DE42F /* MLAudioBufferRecorder.m in Sources */,
 				086B5FFC1F98AA0D006DE42F /* AppDelegate.swift in Sources */,
-				086B601B1F98C932006DE42F /* BJRecordAudio.m in Sources */,
+				086B601B1F98C932006DE42F /* MLRecordAudio.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
