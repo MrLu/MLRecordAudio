@@ -132,12 +132,13 @@ static void AQInputCallback (void                   * inUserData,
 }
 
 - (void) dealloc {
+#ifdef DEBUG
+    NSLog(@"%@ dealloc", self);
+#endif
     [self cancelRecord];
     lame_t lameTmp = lame;
-    FILE *mp3FileTmp = mp3File;
     dispatch_async(self.lameQueue, ^{
         if (lameTmp) {
-            lame_mp3_tags_fid(lameTmp, mp3FileTmp);
             lame_close(lameTmp);
         }
     });
@@ -156,6 +157,7 @@ static void AQInputCallback (void                   * inUserData,
 }
 
 - (void)_startRecord:(AudioBufferRecoderCallback)callback {
+    self.isCancel = NO;
     _aqc.run = 1;
     AVAudioSession * audioSession = [AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error: nil];
@@ -199,7 +201,7 @@ static void AQInputCallback (void                   * inUserData,
                     if (callback) {
                         dispatch_async(dispatch_get_main_queue(), ^{
                             if (granted) {
-                                callback(true);
+                                [self _startRecord:callback];
                             } else {
                                 callback(false);
                             }
@@ -240,7 +242,7 @@ static void AQInputCallback (void                   * inUserData,
 - (void)timerAction {
     if (self.recordTime >= self.duration && self.duration>0) {
         [self stopRecord];
-    } else if(self.remainingCallback) {
+    } else if(self.remainingCallback && self.isActive) {
         self.remainingCallback(self.recordTime);
     }
 }
@@ -248,31 +250,31 @@ static void AQInputCallback (void                   * inUserData,
 - (void)stopRecord {
     [self _stopRecord];
     [self _stopLame];
-    if (self.finishCallback) {
-        self.finishCallback(self.recordedTmpFile, self.recordedTmpFile,self.recordTime,YES,NO);
+    if (!self.isCancel) {
+        if (self.finishCallback) {
+            self.finishCallback(self.recordedTmpFile, self.recordedTmpFile,self.recordTime,YES,NO);
+        }
     }
 }
 
 - (void)cancelRecord {
+    self.isCancel = YES;
     [self _stopRecord];
 }
 
 - (void)_stopLame {
     __weak MLAudioBufferRecorder *weakSelf = self;
     FILE *mp3FileTmp = mp3File;
-    lame_t lameTmp = lame;
     dispatch_async(weakSelf.lameQueue, ^{
         if (weakSelf && mp3FileTmp) {
-            lame_mp3_tags_fid(lameTmp, mp3FileTmp);
-//            lame_close(lameTmp);
             fclose(mp3FileTmp);
         }
         weakSelf.isLameFinish = YES;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (weakSelf.finishCallback) {
-                weakSelf.finishCallback(self.recordedTmpFile, weakSelf.recordedTmpFile,self.recordTime,YES,YES);
-            }
-        });
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            if (weakSelf.finishCallback) {
+//                weakSelf.finishCallback(weakSelf.recordedTmpFile, weakSelf.recordedTmpFile,weakSelf.recordTime,YES,YES);
+//            }
+//        });
     });
     mp3File = NULL;
 }

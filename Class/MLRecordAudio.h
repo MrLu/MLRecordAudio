@@ -34,4 +34,7 @@ typedef void (^BJRecordRemainingTime)(NSTimeInterval time);
 - (void)cancelRecord;
 - (BOOL)isRecording;
 
+- (void)setFinishCallBack:(MLRecordAudioFinish _Nullable)finishCallback;
+- (void)setRemainingCallBack:(BJRecordRemainingTime _Nullable)remainingCallback;
+
 @end

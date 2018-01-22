@@ -148,7 +148,17 @@
     }
 }
 
+- (void)setRemainingCallBack:(BJRecordRemainingTime)remainingCallback {
+    self.remainingCallback = remainingCallback;
+}
+
+- (void)setFinishCallBack:(MLRecordAudioFinish)finishCallback {
+    self.finishCallback = finishCallback;
+}
+
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
+    [self.timer invalidate];
+    self.timer = nil;
     if (!self.isCancel) {
         NSString *messageStr = nil;
         if (flag) {
@@ -166,8 +176,6 @@
             }
         }
     }
-    [self.timer invalidate];
-    self.timer = nil;
 }
 
 /* if an error occurs while encoding it will be reported to the delegate. */
